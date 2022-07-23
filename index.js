@@ -19,9 +19,12 @@ const ghostBlockExclude = [
     "minecraft:command_block"
 ];
 
-itemAlert = true
+
+ChatLib.chat("This mod is in beta!")
+
 
 //アイテム使用不可アラート無効化
+let itemAlert = true
 register("command", () => {
   if (itemAlert == false){
     ChatLib.chat("アイテム使用不可のチャットが無効化されました")
