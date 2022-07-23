@@ -1,0 +1,8 @@
+{
+  "name": "ThelowAddons",
+  "description": "play sound on skill",
+  "author": "snowflake and hiroberry",
+  "entry": "index.js",
+  "version": "1.0.1",
+  "requires": [""]
+}
