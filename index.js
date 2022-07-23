@@ -20,7 +20,7 @@ const ghostBlockExclude = [
 ];
 
 
-ChatLib.chat("This mod is in beta!")
+ChatLib.chat("This mod is in beta!");
 
 
 //アイテム使用不可アラート無効化
