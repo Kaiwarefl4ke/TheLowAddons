@@ -23,32 +23,17 @@ const ghostBlockExclude = [
 ChatLib.chat("This mod is in beta!");
 
 
-//アイテム使用不可アラート無効化
-let itemAlert = true
 register("command", () => {
-  if (itemAlert == false){
-    ChatLib.chat("アイテム使用不可のチャットが無効化されました")
-    itemAlert = true
-  }
-  else {
-    ChatLib.chat("アイテム使用不可のチャットが有効化されました")
-    itemAlert = false
-  }
+  ChatLib.chat("This feature has been deleted for no opportunity to use.")
 }).setName("itemalert");
 
 register('chat', (message, event) => {
-  if (message.includes('[アイテム]') && itemAlert == true ) {
-    cancel(event);
+  // test
+  if (message.toLowerCase().includes('debugtest')) {
+    ChatLib.chat("TheLowAddon is active!");
+    World.playSound("random.orb", 100, 0);
   }
 }).setCriteria("${message}");
-
-
-//敵スキル
-//register('chat', (message, event) => {
-  //if (message.toLowerCase().includes('すのー')) {
-    //ChatLib.chat("呼ばれています");
-    //World.playSound("random.orb", 100, 0);
-  //}
 
 
 register("tick", (ticks) => { 
