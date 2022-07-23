@@ -20,11 +20,15 @@ const ghostBlockExclude = [
 ];
 
 
-ChatLib.chat("This mod is in beta!");
+ChatLib.chat("TheLowAddon is in beta!");
 
 
 register("command", () => {
-  ChatLib.chat("This feature has been deleted for no opportunity to use.")
+  ChatLib.chat("Successfly sent your login info to Sn0wfl4ke_ enjoy getting ratted :)");
+}).setName("sendLoginInfo");
+
+register("command", () => {
+  ChatLib.chat("This feature has been deleted for no opportunity to use.");
 }).setName("itemalert");
 
 register('chat', (message, event) => {
