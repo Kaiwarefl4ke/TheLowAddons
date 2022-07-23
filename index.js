@@ -1,6 +1,6 @@
 const SuicideKey = new KeyBind("/kill", Keyboard.KEY_K);
 const ParryKey = new KeyBind("パリイマクロ", Keyboard.KEY_R);
-const GhostBlockKey = new KeyBind("/kill", Keyboard.KEY_G);
+const GhostBlockKey = new KeyBind("グリッチブロック", Keyboard.KEY_G);
 const mc = Client.getMinecraft();
 //const RightClick = new KeyBind(mc.field_71474_y.field_74313_G);
 
