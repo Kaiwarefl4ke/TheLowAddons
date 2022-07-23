@@ -1,10 +1,25 @@
-const mkeybind = new KeyBind("/kill", Keyboard.KEY_M);
-const rkeybind = new KeyBind("パリイマクロ", Keyboard.KEY_R);
+const SuicideKey = new KeyBind("/kill", Keyboard.KEY_K);
+const ParryKey = new KeyBind("パリイマクロ", Keyboard.KEY_R);
+const GhostBlockKey = new KeyBind("/kill", Keyboard.KEY_G);
 const mc = Client.getMinecraft();
-const useBind = new KeyBind(mc.field_71474_y.field_74313_G);
+//const RightClick = new KeyBind(mc.field_71474_y.field_74313_G);
+
+const BP = Java.type("net.minecraft.util.BlockPos");
+
+const C08PacketPlayerBlockPlacement = Java.type("net.minecraft.network.play.client.C08PacketPlayerBlockPlacement");
+const C09PacketHeldItemChange = Java.type("net.minecraft.network.play.client.C09PacketHeldItemChange");
+const C0APacketAnimation = Java.type("net.minecraft.network.play.client.C0APacketAnimation");
+
+const ghostBlockExclude = [
+    "minecraft:lever",
+    "minecraft:stone_button",
+    "minecraft:chest",
+    "minecraft:trapped_chest",
+    "minecraft:skull",
+    "minecraft:command_block"
+];
 
 itemAlert = true
-someberryChat = true
 
 //アイテム使用不可アラート無効化
 register("command", () => {
@@ -17,29 +32,13 @@ register("command", () => {
     itemAlert = false
   }
 }).setName("itemalert");
+
 register('chat', (message, event) => {
   if (message.includes('[アイテム]') && itemAlert == true ) {
     cancel(event);
   }
 }).setCriteria("${message}");
 
-
-//そめべりーをだまされるやつ
-register("command", () => {
-  if (someberryChat == false){
-    ChatLib.chat("そめべりーのチャットが無効化されました")
-    someberryChat = true
-  }
-  else {
-    ChatLib.chat("そめべりーのチャットが有効化されました")
-    someberryChat = false
-  }
-}).setName("someberrychat");
-register('chat', (message, event) => {
-  if (message.includes('___someberry') && someberryChat == true) {
-    cancel(event);
-  }
-}).setCriteria("${message}");
 
 //敵スキル
 //register('chat', (message, event) => {
@@ -48,19 +47,36 @@ register('chat', (message, event) => {
     //World.playSound("random.orb", 100, 0);
   //}
 
-//togglePartyChat
-let togglePartyChat = false
-register('chat', (message, event) => {
-  if (message.includes('[システム] 統計情報') && toggledPartyChat == true) {
-    ChatLib.say("/party toggle");
-    toggledPartyChat = true
-  }
-}).setCriteria("${message}");
 
-//Mで/kill
 register("tick", (ticks) => { 
-  //Rキー押したときの動作
-  if (mkeybind.isPressed()) {
+  // 自殺
+  if (SuicideKey.isPressed()) {
     ChatLib.say("/kill")
+  }
+
+  // パリイ
+  if (ParryKey.isPressed()) {
+    new Thread(() => {
+      for (let i = 0; i < 9; i++) {
+        if (Player.getInventory().getStackInSlot(i) !== null && Player.getInventory().getStackInSlot(i).getName().includes("姫騎士の剣")) {
+          Client.sendPacket(new C09PacketHeldItemChange(i));
+          Client.sendPacket(new C08PacketPlayerBlockPlacement(new BP(-1, -1, -1), 255, Player.getInventory().getStackInSlot(i).getItemStack(), 0, 0, 0));
+          Thread.sleep(10);
+          ChatLib.chat("Debug: Parried!")
+          Client.sendPacket(new C09PacketHeldItemChange(Player.getInventory().getInventory().field_70461_c));
+          break;          
+        }
+      }
+    }).start();
+  }
+
+  // GhostBlock
+  let lookingAt = Player.lookingAt(); 
+  if (GhostBlockKey.isPressed()) {
+    if (lookingAt.getClass() === Block) {
+      if (!ghostBlockExclude.includes(lookingAt.type.getRegistryName())) {
+        World.getWorld().func_175698_g(new BP(lookingAt.getX(), lookingAt.getY(), lookingAt.getZ()));
+      }
+    }
   }
 });
