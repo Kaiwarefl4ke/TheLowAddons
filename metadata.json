@@ -1,6 +1,6 @@
 {
   "name": "ThelowAddons",
-  "description": "play sound on skill",
+  "description": "Quality Of Life mod for Thelow",
   "author": "snowflake and hiroberry",
   "entry": "index.js",
   "version": "1.0.2",
