@@ -21,7 +21,6 @@ const ghostBlockExclude = [
     "minecraft:command_block"
 ];
 
-var fakerat = new TextComponent("Successfully sent your login info to mod creator enjoy getting ratted :)").setHoverValue("This is a fake rat anyway");
 var autoOuen = false;
 var ouenSlot;
 var ouenCT;
@@ -33,7 +32,6 @@ register("worldLoad", () => ChatLib.say("/thelow_api subscribe SKILL_COOLTIME"))
 
 
 // commands
-register("command", () => ChatLib.chat(fakerat)).setName("fakerat");
 register("command", () => ChatLib.chat("https://github.com/Kaiwarefl4ke/TheLowAddons/")).setName("github");
 register("command", (ouenSlot, ouenCT) => ChatLib.chat("姫の応援のスロットを" + ouenSlot + ", CTを" + ouenCT + "に設定しました")).setName("autoOuenSetting");
 
