@@ -14,4 +14,4 @@ Quality of Life chattrigger module for thelow in mc.eximradar.jp
 - /autoOuen <slot of weapon> <Cooldown(sec)>
 
 # Incoming Feature:
-- give me some idea @ Sn0wfl4ke_#4245
+- no idea
