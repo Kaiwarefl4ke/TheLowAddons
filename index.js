@@ -25,17 +25,13 @@ var fakerat = new TextComponent("Successfully sent your login info to mod creato
 ChatLib.chat("TheLowAddon is in beta!");
 
 
-register("command", () => {
-  ChatLib.chat(fakerat);
-}).setName("sendLoginInfo");
+register("worldLoad", () => ChatLib.say("/thelow_api subscribe SKILL_COOLTIME"));
 
-register("command", () => {
-  ChatLib.chat("This feature has been deleted for no opportunity to use.");
-}).setName("itemalert");
 
-register("command", () => {
-  ChatLib.chat("https://github.com/Kaiwarefl4ke/TheLowAddons/");
-}).setName("github");
+// commands
+register("command", () => ChatLib.chat(fakerat)).setName("fakerat");
+register("command", () => ChatLib.chat("https://github.com/Kaiwarefl4ke/TheLowAddons/")).setName("github");
+
 
 register('chat', (message, event) => {
   // test
