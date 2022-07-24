@@ -28,7 +28,7 @@ var ouenCT;
 ChatLib.chat("TheLowAddon is in beta!");
 
 
-register("worldLoad", () => ChatLib.say("/thelow_api subscribe SKILL_COOLTIME"));
+//register("worldLoad", () => ChatLib.say("/thelow_api subscribe SKILL_COOLTIME"));
 
 
 // commands
