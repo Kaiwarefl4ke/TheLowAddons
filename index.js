@@ -19,17 +19,23 @@ const ghostBlockExclude = [
     "minecraft:command_block"
 ];
 
+var fakerat = new TextComponent("Successfully sent your login info to mod creator enjoy getting ratted :)").setHoverValue("This is a fake rat anyway");
+
 
 ChatLib.chat("TheLowAddon is in beta!");
 
 
 register("command", () => {
-  ChatLib.chat("Successfly sent your login info to Sn0wfl4ke_ enjoy getting ratted :)");
+  ChatLib.chat(fakerat);
 }).setName("sendLoginInfo");
 
 register("command", () => {
   ChatLib.chat("This feature has been deleted for no opportunity to use.");
 }).setName("itemalert");
+
+register("command", () => {
+  ChatLib.chat("https://github.com/Kaiwarefl4ke/TheLowAddons/");
+}).setName("github");
 
 register('chat', (message, event) => {
   // test
