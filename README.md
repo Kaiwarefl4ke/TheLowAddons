@@ -1,6 +1,7 @@
 # TheLowAddons
 Quality of Life chattrigger module for thelow in mc.eximradar.jp
-※This module is beta! I haven't even tested the module yet
+
+※This module is in beta! I haven't even tested the module yet
 
 # Feature
 - Suicide KeyBind
