@@ -9,9 +9,9 @@ Quality of Life chattrigger module for thelow in mc.eximradar.jp
 - Parry KeyBind
 - Auto Hime-no-ouen (May work for some other skills?)
 
-command:
-/github - Get the github link to here in the chat
-/autoOuen <slot of weapon> <Cooldown(sec)>
+# Commands:
+- /github - Get the github link to here in the chat
+- /autoOuen <slot of weapon> <Cooldown(sec)>
 
-Incoming feature:
-no idea
+# Incoming Feature:
+- give me some idea @ Sn0wfl4ke_#4245
