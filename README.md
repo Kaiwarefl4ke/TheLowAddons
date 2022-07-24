@@ -10,4 +10,4 @@ command:
 /github - Get the github link to here in the chat
 
 Incoming feature:
-- Togglable Auto Hime-no-ouen
+Togglable Auto Hime-no-ouen
