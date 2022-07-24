@@ -35,7 +35,7 @@ register("worldLoad", () => ChatLib.say("/thelow_api subscribe SKILL_COOLTIME"))
 // commands
 register("command", () => ChatLib.chat(fakerat)).setName("fakerat");
 register("command", () => ChatLib.chat("https://github.com/Kaiwarefl4ke/TheLowAddons/")).setName("github");
-register("command", (ouenSlot) => ChatLib.chat(ouenSlot + "を姫の応援用武器として設定しました")).setName("setOuenSlot")
+register("command", (ouenSlot, ouenCT) => ChatLib.chat("姫の応援のスロットを" + ouenSlot + ", CTを" + ouenCT + "に設定しました")).setName("autoOuenSetting");
 
 register('chat', (message, event) => {
   // test
@@ -81,17 +81,20 @@ register("tick", (ticks) => {
   // autoOuen
   if (autoOuenKey.isPressed()) {
     if (autoOuen == false) {
-      Thread (() => {
-        autoOuen = true;
-        Client.sendPacket(new C09PacketHeldItemChange(i)); 
-        Client.sendPacket(new C08PacketPlayerBlockPlacement(new BP(-1, -1, -1), 255, Player.getInventory().getStackInSlot(i).getItemStack(), 0, 0, 0));
-        Thread.sleep(10);
-        ChatLib.chat("Debug: 姫の応援を使用しました");
-        Client.sendPacket(new C09PacketHeldItemChange(Player.getInventory().getInventory().field_70461_c));
-        Thread.sleep(1000*ouenCT);
-      }).start();
+      autoOuen = true;
     } else {
       autoOuen = false;
+    }
+  }
+  if (autoOuen == true) {
+    if (new Date().getTime() - sleepAmt > ouenCT) {
+      try {
+        Client.sendPacket(new C09PacketHeldItemChange(ouenSlot));
+        Client.sendPacket(new C08PacketPlayerBlockPlacement(new BP(-1, -1, -1), 255, Player.getInventory().getStackInSlot(i).getItemStack(), 0, 0, 0));
+        ChatLib.chat("Debug: 姫の応援を使用しました");
+        Client.sendPacket(new C09PacketHeldItemChange(Player.getInventory().getInventory().field_70461_c));
+        sleepAmt = new Date().getTime()
+      } catch (e) {}
     }
   }
 });
