@@ -33,7 +33,7 @@ register("worldLoad", () => ChatLib.say("/thelow_api subscribe SKILL_COOLTIME"))
 
 // commands
 register("command", () => ChatLib.chat("https://github.com/Kaiwarefl4ke/TheLowAddons/")).setName("github");
-register("command", (ouenSlot, ouenCT) => ChatLib.chat("姫の応援のスロットを" + ouenSlot + ", CTを" + ouenCT + "に設定しました")).setName("autoOuenSetting");
+register("command", (ouenSlot, ouenCT) => ChatLib.chat("姫の応援のスロットを" + ouenSlot + ", CTを" + ouenCT + "に設定しました")).setName("autoOuen");
 
 register('chat', (message, event) => {
   // test
