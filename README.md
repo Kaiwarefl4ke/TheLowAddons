@@ -7,4 +7,4 @@ Quality of Life chattrigger module for thelow in mc.eximradar.jp
 - Parry KeyBind
 
 command:
-/github - show github link
+/github - Get the github link to here in the chat
