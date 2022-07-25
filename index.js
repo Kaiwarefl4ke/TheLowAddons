@@ -33,7 +33,11 @@ ChatLib.chat("TheLowAddon is in beta!");
 
 // commands
 register("command", () => ChatLib.chat("https://github.com/Kaiwarefl4ke/TheLowAddons/")).setName("github");
-register("command", (ouenSlot, ouenCT) => ChatLib.chat("姫の応援のスロットを" + ouenSlot + ", CTを" + ouenCT + "に設定しました")).setName("autoOuen");
+//register("command", (slot, CT) => {
+//  ChatLib.chat("姫の応援のスロットを" + slot + ", CTを" + CT + "に設定しました")
+//  ouenSlot = slot
+//  ouenCT = CT
+//)}.setName("autoOuen");
 
 register('chat', (message, event) => {
   // test
@@ -57,8 +61,9 @@ register("tick", (ticks) => {
         if (Player.getInventory().getStackInSlot(i) !== null && Player.getInventory().getStackInSlot(i).getName().includes("姫騎士の剣")) {
           Client.sendPacket(new C09PacketHeldItemChange(i));
           Client.sendPacket(new C08PacketPlayerBlockPlacement(new BP(-1, -1, -1), 255, Player.getInventory().getStackInSlot(i).getItemStack(), 0, 0, 0));
-          Thread.sleep(10);
-          ChatLib.chat("Debug: Parried!")
+          //add the line below if you are laggy
+	  //Thread.sleep(1);
+          //ChatLib.chat("Debug: Parried!")
           Client.sendPacket(new C09PacketHeldItemChange(Player.getInventory().getInventory().field_70461_c));
           break;          
         }
@@ -69,14 +74,18 @@ register("tick", (ticks) => {
   // GhostBlock
   let lookingAt = Player.lookingAt(); 
   if (ghostBlockKey.isPressed()) {
-    if (lookingAt.getClass() === Block) {
-      if (!ghostBlockExclude.includes(lookingAt.type.getRegistryName())) {
-        World.getWorld().func_175698_g(new BP(lookingAt.getX(), lookingAt.getY(), lookingAt.getZ()));
+    try {
+      if (lookingAt.getClass() == Block) {
+        if (!ghostBlockExclude.includes(lookingAt.type.getRegistryName())) {
+          World.getWorld().func_175698_g(new BP(lookingAt.getX(), lookingAt.getY(), lookingAt.getZ()));
+        }
       }
+    } catch (e) {
+      ChatLib.chat("GhostBlock: Error!");
     }
   }
 
-  // autoOuen
+// autoOuen
   if (autoOuenKey.isPressed()) {
     if (autoOuen == false) {
       autoOuen = true;
@@ -84,15 +93,19 @@ register("tick", (ticks) => {
       autoOuen = false;
     }
   }
+
   if (autoOuen == true) {
+    let sleepAmt = new Date().getTime()
     if (new Date().getTime() - sleepAmt > ouenCT) {
       try {
         Client.sendPacket(new C09PacketHeldItemChange(ouenSlot));
-        Client.sendPacket(new C08PacketPlayerBlockPlacement(new BP(-1, -1, -1), 255, Player.getInventory().getStackInSlot(i).getItemStack(), 0, 0, 0));
+        Client.sendPacket(new C08PacketPlayerBlockPlacement(new BP(-1, -1, -1), 255, Player.getInventory().getStackInSlot(ouenSlot).getItemStack(), 0, 0, 0));
         ChatLib.chat("Debug: 姫の応援を使用しました");
         Client.sendPacket(new C09PacketHeldItemChange(Player.getInventory().getInventory().field_70461_c));
         sleepAmt = new Date().getTime()
-      } catch (e) {}
+      } catch (e) {
+	ChatLib.chat("AutoOuen: Error!");
+      }
     }
   }
 });
