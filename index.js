@@ -1,6 +1,5 @@
 const suicideKey = new KeyBind("/kill", Keyboard.KEY_K);
-const parryKey = new KeyBind("パリイ", Keyboard.KEY_R);
-const ghostBlockKey = new KeyBind("グリッチブロック", Keyboard.KEY_G);
+const parryKey = new KeyBind("パリイ", Keyboard.KEY_F);
 const autoOuenKey = new KeyBind("姫の応援マクロ", Keyboard.KEY_H);
 
 //const RightClick = new KeyBind(mc.field_71474_y.field_74313_G);
@@ -12,15 +11,6 @@ const C08PacketPlayerBlockPlacement = Java.type("net.minecraft.network.play.clie
 const C09PacketHeldItemChange = Java.type("net.minecraft.network.play.client.C09PacketHeldItemChange");
 const C0APacketAnimation = Java.type("net.minecraft.network.play.client.C0APacketAnimation");
 
-const ghostBlockExclude = [
-    "minecraft:lever",
-    "minecraft:stone_button",
-    "minecraft:chest",
-    "minecraft:trapped_chest",
-    "minecraft:skull",
-    "minecraft:command_block"
-];
-
 var autoOuen = false;
 var ouenSlot;
 var ouenCT;
@@ -28,7 +18,7 @@ var ouenCT;
 ChatLib.chat("TheLowAddon is in beta!");
 
 
-//register("worldLoad", () => ChatLib.say("/thelow_api subscribe SKILL_COOLTIME"));
+register("worldLoad", () => ChatLib.say("/thelow_api subscribe SKILL_COOLTIME"));
 
 
 // commands
@@ -39,19 +29,11 @@ register("command", () => ChatLib.chat("https://github.com/Kaiwarefl4ke/TheLowAd
 //  ouenCT = CT
 //)}.setName("autoOuen");
 
-register('chat', (message, event) => {
-  // test
-  if (message.toLowerCase().includes('debugtest')) {
-    ChatLib.chat("TheLowAddon is active!");
-    World.playSound("random.orb", 100, 0);
-  }
-}).setCriteria("${message}");
-
 
 register("tick", (ticks) => { 
   // 自殺
   if (suicideKey.isPressed()) {
-    ChatLib.say("/kill")
+    ChatLib.say("/kill");
   }
 
   // パリイ
@@ -71,41 +53,33 @@ register("tick", (ticks) => {
     }).start();
   }
 
-  // GhostBlock
-  let lookingAt = Player.lookingAt(); 
-  if (ghostBlockKey.isPressed()) {
-    try {
-      if (lookingAt.getClass() == Block) {
-        if (!ghostBlockExclude.includes(lookingAt.type.getRegistryName())) {
-          World.getWorld().func_175698_g(new BP(lookingAt.getX(), lookingAt.getY(), lookingAt.getZ()));
+  // autoOuen
+  if (autoOuenKey.isPressed()) {
+    if (autoOuen === false) {
+      autoOuen = true;
+      for (let i = 0; i < 9; i++) {
+        if (Player.getInventory().getStackInSlot(i) !== null && Player.getInventory().getStackInSlot(i).getName().includes(OuenWeapon)) {
+          Client.sendPacket(new C09PacketHeldItemChange(i));
+          Client.sendPacket(new C08PacketPlayerBlockPlacement(new BP(-1, -1, -1), 255, Player.getInventory().getStackInSlot(i).getItemStack(), 0, 0, 0));
+          Client.sendPacket(new C09PacketHeldItemChange(Player.getInventory().getInventory().field_70461_c));
+          break;          
         }
       }
-    } catch (e) {
-      ChatLib.chat("GhostBlock: Error!");
-    }
-  }
-
-// autoOuen
-  if (autoOuenKey.isPressed()) {
-    if (autoOuen == false) {
-      autoOuen = true;
     } else {
       autoOuen = false;
     }
   }
-
-  if (autoOuen == true) {
-    let sleepAmt = new Date().getTime()
-    if (new Date().getTime() - sleepAmt > ouenCT) {
-      try {
-        Client.sendPacket(new C09PacketHeldItemChange(ouenSlot));
-        Client.sendPacket(new C08PacketPlayerBlockPlacement(new BP(-1, -1, -1), 255, Player.getInventory().getStackInSlot(ouenSlot).getItemStack(), 0, 0, 0));
-        ChatLib.chat("Debug: 姫の応援を使用しました");
-        Client.sendPacket(new C09PacketHeldItemChange(Player.getInventory().getInventory().field_70461_c));
-        sleepAmt = new Date().getTime()
-      } catch (e) {
-	ChatLib.chat("AutoOuen: Error!");
-      }
-    }
-  }
 });
+	
+register('chat', (message, event) => {
+  // test
+  if (message.toLowerCase().includes('debugtest')) {
+    ChatLib.chat("TheLowAddon is active!");
+    World.playSound("random.orb", 100, 0);
+  }
+  // Skill Timer
+  if (message.toLowerCase().includes('apiType')) {
+    message = JSON.parse(jsonData);
+    console.log(message);
+  }
+}).setCriteria("${message}");
