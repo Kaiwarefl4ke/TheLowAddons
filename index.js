@@ -66,6 +66,6 @@ register('chat', (message, event) => {
   // Skill Timer
   if (message.toLowerCase().includes('apiType')) {
     let API = JSON.parse(message);
-    console.log(API);
+    ChatLib.chat(API);
   }
 }).setCriteria("${message}");
